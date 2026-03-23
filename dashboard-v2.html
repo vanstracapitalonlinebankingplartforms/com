@@ -2460,85 +2460,67 @@
 
     <!-- Deposit Modal -->
     <div id="depositModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'depositModal')">
-        <div class="modal-sheet" style="max-width: 500px;">
-            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px 16px 0 0; padding: 2rem 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                    <div style="font-size: 24px;">💳</div>
-                    <h3 class="modal-title" style="color: white; margin: 0; font-size: 20px; font-weight: 700;">Mobile Check Deposit</h3>
-                </div>
-                <p style="color: rgba(255, 255, 255, 0.85); margin: 0; font-size: 13px; margin-left: 2.5rem;">Quick and secure check deposits</p>
-                <button class="modal-close" onclick="closeModal('depositModal')" style="color: white; position: absolute; top: 1.5rem; right: 1.5rem;">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="modal-sheet" style="max-width: 480px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); border-radius: 16px 16px 0 0; padding: 2rem 1.5rem;">
+                <h3 class="modal-title" style="color: var(--gold); margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">Mobile Check Deposit</h3>
+                <p style="color: rgba(255, 255, 255, 0.7); margin: 0.5rem 0 0 0; font-size: 13px; font-weight: 400;">Securely deposit checks directly from your device</p>
+                <button class="modal-close" onclick="closeModal('depositModal')" style="color: var(--gold); position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; cursor: pointer; padding: 0;">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
             <div class="modal-body" style="padding: 2rem 1.5rem;">
                 
-                <!-- Key Information Cards -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
-                    <div style="background: linear-gradient(135deg, #E0F2FE 0%, #F0F9FF 100%); border-left: 3px solid #0EA5E9; border-radius: 10px; padding: 1rem;">
-                        <p style="margin: 0; font-size: 12px; color: #0369A1; font-weight: 600; margin-bottom: 0.25rem;">📸 Clear Photos</p>
-                        <p style="margin: 0; font-size: 11px; color: #0C4A6E; line-height: 1.4;">Both sides of check required</p>
-                    </div>
-                    <div style="background: linear-gradient(135deg, #DBEAFE 0%, #F0F9FF 100%); border-left: 3px solid #06B6D4; border-radius: 10px; padding: 1rem;">
-                        <p style="margin: 0; font-size: 12px; color: #0E7490; font-weight: 600; margin-bottom: 0.25rem;">⏱️ Processing</p>
-                        <p style="margin: 0; font-size: 11px; color: #164E63; line-height: 1.4;">1-2 business days</p>
-                    </div>
-                    <div style="background: linear-gradient(135deg, #DCF8C8 0%, #ECFDF5 100%); border-left: 3px solid #10B981; border-radius: 10px; padding: 1rem;">
-                        <p style="margin: 0; font-size: 12px; color: #047857; font-weight: 600; margin-bottom: 0.25rem;">💰 Max Limit</p>
-                        <p style="margin: 0; font-size: 11px; color: #065F46; line-height: 1.4;">€10,000 per deposit</p>
-                    </div>
-                    <div style="background: linear-gradient(135deg, #FDEDD5 0%, #FEF3C7 100%); border-left: 3px solid #F59E0B; border-radius: 10px; padding: 1rem;">
-                        <p style="margin: 0; font-size: 12px; color: #B45309; font-weight: 600; margin-bottom: 0.25rem;">✓ Secure</p>
-                        <p style="margin: 0; font-size: 11px; color: #78350F; line-height: 1.4;">Bank-level security</p>
-                    </div>
+                <!-- Information Section -->
+                <div style="background: rgba(200, 154, 58, 0.05); border-left: 3px solid var(--gold); border-radius: 10px; padding: 1.25rem; margin-bottom: 2rem;">
+                    <p style="margin: 0; font-size: 13px; color: #D1D5DB; line-height: 1.6;">
+                        <strong style="color: var(--gold);">Requirements:</strong> Clear photos of both sides • Processing: 1-2 business days • Limit: €10,000 per deposit
+                    </p>
                 </div>
                 
                 <form id="depositForm" onsubmit="handleDeposit(event)">
                     <!-- Amount Section -->
-                    <div style="margin-bottom: 1.75rem;">
-                        <label class="form-label" style="font-weight: 700; margin-bottom: 0.75rem; display: block; color: #1F2937; font-size: 15px;">Enter Check Amount</label>
+                    <div style="margin-bottom: 2rem;">
+                        <label class="form-label" style="font-weight: 600; margin-bottom: 0.75rem; display: block; color: #E5E7EB; font-size: 14px; letter-spacing: 0.3px;">AMOUNT</label>
                         <div style="position: relative; display: flex; align-items: center;">
-                            <span style="position: absolute; left: 14px; font-size: 20px; font-weight: 700; color: #667eea;">€</span>
-                            <input type="number" id="checkAmount" class="form-input" placeholder="0.00" step="0.01" required style="padding: 14px 16px 14px 40px; font-size: 18px; font-weight: 600; letter-spacing: 0.5px; border: 2px solid #E5E7EB; border-radius: 10px; transition: all 0.2s ease; width: 100%;">
+                            <span style="position: absolute; left: 16px; font-size: 18px; font-weight: 600; color: var(--gold);">€</span>
+                            <input type="number" id="checkAmount" class="form-input" placeholder="0.00" step="0.01" required style="padding: 14px 16px 14px 40px; font-size: 20px; font-weight: 600; letter-spacing: 0.5px; border: 2px solid #0C3550; border-radius: 8px; background: rgba(11, 42, 63, 0.5); color: #F3F4F6; width: 100%; transition: all 0.2s ease;" onfocus="this.style.borderColor='var(--gold)'; this.style.background='rgba(11, 42, 63, 0.8)'" onblur="this.style.borderColor='#0C3550'; this.style.background='rgba(11, 42, 63, 0.5)'">
                         </div>
-                        <p class="input-hint" style="margin-top: 0.5rem; font-size: 12px; color: #9CA3AF;">Limit: €10,000 per deposit</p>
+                        <p class="input-hint" style="margin-top: 0.5rem; font-size: 12px; color: #6B7280;">Maximum: €10,000.00 per deposit</p>
                     </div>
                     
                     <!-- Check Images Section -->
-                    <div style="margin-bottom: 1.75rem;">
-                        <label style="font-weight: 700; margin-bottom: 1rem; display: block; font-size: 15px; color: #1F2937;">Upload Check Images</label>
+                    <div style="margin-bottom: 2rem;">
+                        <label style="font-weight: 600; margin-bottom: 1rem; display: block; font-size: 14px; color: #E5E7EB; letter-spacing: 0.3px;">UPLOAD CHECK IMAGES</label>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
                             <!-- Front Side -->
                             <div>
-                                <div class="border-2 border-dashed border-blue-300 rounded-12 p-5 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" onclick="document.getElementById('frontCheck').click()" id="frontCheckBox" style="background: #F8FAFF; position: relative; border-radius: 12px;">
+                                <div class="border-2" style="border-style: dashed; border-color: #0C3550; border-radius: 8px; padding: 1.5rem; text-align: center; cursor: pointer; background: rgba(11, 42, 63, 0.3); transition: all 0.2s ease;" onclick="document.getElementById('frontCheck').click()" onmouseover="this.style.borderColor='var(--gold)'; this.style.background='rgba(200, 154, 58, 0.08)'" onmouseout="this.style.borderColor='#0C3550'; this.style.background='rgba(11, 42, 63, 0.3)'" id="frontCheckBox">
                                     <input type="file" id="frontCheck" class="hidden" accept="image/*" onchange="handleCheckImage(this, 'front')" required>
-                                    <div style="font-size: 36px; margin-bottom: 0.5rem; transition: transform 0.2s ease;" id="frontIcon">📸</div>
-                                    <p style="font-weight: 600; color: #1F2937; font-size: 13px; margin: 0;">Front</p>
-                                    <p style="font-size: 11px; color: #6B7280; margin: 0.25rem 0 0 0;">Click to upload</p>
-                                    <p id="frontFileName" style="font-size: 11px; color: #10B981; margin: 0.5rem 0 0 0; font-weight: 600; display: none;">✓ Uploaded</p>
+                                    <div style="font-size: 32px; margin-bottom: 0.75rem;" id="frontIcon">📄</div>
+                                    <p style="font-weight: 600; color: #E5E7EB; font-size: 13px; margin: 0;">Front Side</p>
+                                    <p id="frontFileName" style="font-size: 11px; color: var(--gold); margin: 0.5rem 0 0 0; font-weight: 500; display: none;">✓ Uploaded</p>
                                 </div>
                             </div>
                             <!-- Back Side -->
                             <div>
-                                <div class="border-2 border-dashed border-blue-300 rounded-12 p-5 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" onclick="document.getElementById('backCheck').click()" id="backCheckBox" style="background: #F8FAFF; position: relative; border-radius: 12px;">
+                                <div class="border-2" style="border-style: dashed; border-color: #0C3550; border-radius: 8px; padding: 1.5rem; text-align: center; cursor: pointer; background: rgba(11, 42, 63, 0.3); transition: all 0.2s ease;" onclick="document.getElementById('backCheck').click()" onmouseover="this.style.borderColor='var(--gold)'; this.style.background='rgba(200, 154, 58, 0.08)'" onmouseout="this.style.borderColor='#0C3550'; this.style.background='rgba(11, 42, 63, 0.3)'" id="backCheckBox">
                                     <input type="file" id="backCheck" class="hidden" accept="image/*" onchange="handleCheckImage(this, 'back')" required>
-                                    <div style="font-size: 36px; margin-bottom: 0.5rem; transition: transform 0.2s ease;" id="backIcon">📸</div>
-                                    <p style="font-weight: 600; color: #1F2937; font-size: 13px; margin: 0;">Back</p>
-                                    <p style="font-size: 11px; color: #6B7280; margin: 0.25rem 0 0 0;">Click to upload</p>
-                                    <p id="backFileName" style="font-size: 11px; color: #10B981; margin: 0.5rem 0 0 0; font-weight: 600; display: none;">✓ Uploaded</p>
+                                    <div style="font-size: 32px; margin-bottom: 0.75rem;" id="backIcon">📄</div>
+                                    <p style="font-weight: 600; color: #E5E7EB; font-size: 13px; margin: 0;">Back Side</p>
+                                    <p id="backFileName" style="font-size: 11px; color: var(--gold); margin: 0.5rem 0 0 0; font-weight: 500; display: none;">✓ Uploaded</p>
                                 </div>
                             </div>
                         </div>
-                        <p style="font-size: 11px; color: #6B7280; margin-top: 0.75rem; text-align: center;">JPG, PNG • Max 10MB each</p>
+                        <p style="font-size: 11px; color: #6B7280; margin-top: 0.75rem; text-align: center;">JPG, PNG • Up to 10MB</p>
                     </div>
                     
                     <!-- Action Buttons -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                        <button type="button" onclick="closeModal('depositModal')" style="padding: 0.875rem; background: #F3F4F6; color: #374151; border: none; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">Cancel</button>
-                        <button type="submit" class="btn btn-primary" style="padding: 0.875rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s ease;">Continue</button>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem;">
+                        <button type="button" onclick="closeModal('depositModal')" style="padding: 0.875rem; background: transparent; color: #E5E7EB; border: 2px solid #0C3550; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.3px;" onmouseover="this.style.borderColor='var(--gold)'; this.style.color='var(--gold)'" onmouseout="this.style.borderColor='#0C3550'; this.style.color='#E5E7EB'">CANCEL</button>
+                        <button type="submit" style="padding: 0.875rem; background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%); color: var(--navy); border: none; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.3px;" onmouseover="this.style.boxShadow='0 6px 20px rgba(200, 154, 58, 0.3)'" onmouseout="this.style.boxShadow='none'">CONTINUE</button>
                     </div>
                 </form>
             </div>
