@@ -1,0 +1,316 @@
+/* ============================================
+   VANSTRA BANK - GLASSMORPHISM DESIGN SYSTEM
+   Quick Reference CSS Snippets
+   ============================================ */
+
+/* 1. ROOT VARIABLES - Add to :root {} */
+:root {
+    --navy: #041225;
+    --slate: #0B2A3F;
+    --gold: #C89A3A;
+    
+    /* Glassmorphism Variables */
+    --glass-light: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-dark: rgba(20, 30, 50, 0.15);
+    --glass-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.1);
+    --glass-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.15);
+    --glass-shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.2);
+}
+
+/* 2. BODY BACKGROUND */
+body {
+    background: linear-gradient(135deg, #0F172A 0%, #1a3a57 25%, #2d1b4e 50%, #1a3a57 75%, #0F172A 100%);
+    background-attachment: fixed;
+    color: #E5E7EB;
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'San Francisco', 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* ============================================
+   CORE GLASSMORPHISM COMPONENTS
+   ============================================ */
+
+/* 3. HEADER */
+.app-header {
+    background: var(--glass-light);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-sm);
+    color: white;
+}
+
+/* 4. CARD / CONTAINER */
+.glass-container {
+    background: var(--glass-light);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow-md);
+    padding: 1.5rem;
+}
+
+/* 5. BALANCE SECTION */
+.balance-section {
+    background: var(--glass-dark);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* 6. QUICK ACTION BUTTONS */
+.quick-action {
+    background: var(--glass-light);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    box-shadow: var(--glass-shadow-md);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+}
+
+.quick-action:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 16px 48px rgba(200, 154, 58, 0.2);
+    border-color: rgba(200, 154, 58, 0.4);
+    filter: brightness(1.1);
+}
+
+.quick-action:active {
+    transform: translateY(-4px) scale(0.95);
+    filter: brightness(0.95);
+}
+
+/* 7. TRANSACTION CARD */
+.transactions-card {
+    background: var(--glass-light);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow-md);
+}
+
+.transaction-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.transaction-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    filter: brightness(1.1);
+    transform: translateX(4px);
+}
+
+/* 8. MODAL */
+.modal-sheet {
+    background: var(--glass-light);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px 24px 0 0;
+    box-shadow: var(--glass-shadow-lg);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 9. FORM INPUTS */
+.form-input,
+.form-select {
+    background: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    color: #E5E7EB;
+    transition: all 0.3s ease;
+}
+
+.form-input::placeholder {
+    color: rgba(229, 231, 235, 0.5);
+}
+
+.form-input:hover,
+.form-select:hover {
+    border-color: rgba(200, 154, 58, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+    filter: brightness(1.05);
+}
+
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(200, 154, 58, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.form-label {
+    color: #E5E7EB;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* 10. PRIMARY BUTTON */
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%);
+    color: var(--navy);
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(200, 154, 58, 0.4);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 8px 32px rgba(200, 154, 58, 0.5);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    filter: brightness(0.95);
+    transform: scale(0.98);
+}
+
+/* 11. SECONDARY BUTTON */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    color: #E5E7EB;
+    border-radius: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(200, 154, 58, 0.3);
+    filter: brightness(1.1);
+}
+
+/* 12. BOTTOM NAVIGATION */
+.bottom-nav {
+    background: var(--glass-light);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--glass-border);
+    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.2);
+}
+
+.nav-item {
+    color: #9CA3AF;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(200, 154, 58, 0.1);
+    color: #E5E7EB;
+    filter: brightness(1.1);
+}
+
+.nav-item.active {
+    color: var(--gold);
+    background: rgba(200, 154, 58, 0.15);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* 13. GLASS UTILITY CLASSES */
+.glass {
+    background: var(--glass-light);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-md);
+    border-radius: 16px;
+}
+
+.glass-sm {
+    background: var(--glass-light);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-sm);
+    border-radius: 12px;
+}
+
+.glass-lg {
+    background: var(--glass-dark);
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-lg);
+    border-radius: 20px;
+}
+
+.glass-interactive {
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+}
+
+.glass-interactive:hover {
+    filter: brightness(1.15);
+    box-shadow: 0 16px 40px rgba(200, 154, 58, 0.25);
+    transform: translateY(-4px);
+}
+
+.glass-interactive:active {
+    transform: scale(0.97) translateY(-2px);
+    filter: brightness(0.9);
+}
+
+/* 14. TEXT UTILITIES */
+.text-glass {
+    color: #E5E7EB;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.text-glass-secondary {
+    color: #9CA3AF;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.text-glass-accent {
+    color: var(--gold);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   ACCESSIBILITY & RESPONSIVE
+   ============================================ */
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+    .glass-interactive:hover {
+        box-shadow: var(--glass-shadow-md);
+        /* Skip transform on mobile for better performance */
+    }
+}
+
+/* Dark mode - already optimized */
+@media (prefers-color-scheme: dark) {
+    /* All colors are already dark-optimized */
+}
