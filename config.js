@@ -2,8 +2,8 @@
 // Update this based on your environment
 
 const API_CONFIG = {
-  // Local development
-  API_BASE_URL: 'http://localhost:5001/api',
+  // Local development (backend server runs on port 5000)
+  API_BASE_URL: 'http://localhost:5000/api',
 
   // Master OTPs for development/testing
   MASTER_OTPS: ['271839', '492716', '580317', '634928', '705231'],
