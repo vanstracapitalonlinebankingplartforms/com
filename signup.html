@@ -194,6 +194,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             margin-top: 1rem;
+            flex: 1;
         }
         
         .btn-primary:hover {
@@ -257,9 +258,69 @@
             text-decoration: none;
         }
         
-        /* Confirm PIN form group margin */
-        .form-group:last-of-type {
-            margin-bottom: 0;
+        .step-container {
+            display: none;
+        }
+        
+        .step-container.active {
+            display: block;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #E5E7EB;
+            transition: all 0.3s;
+        }
+        
+        .step-dot.active {
+            background: #C89A3A;
+            transform: scale(1.2);
+        }
+        
+        .step-dot.completed {
+            background: #10B981;
+        }
+        
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #E5E7EB;
+            gap: 1rem;
+        }
+        
+        .btn-secondary {
+            padding: 1rem;
+            background: #6B7280;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+        
+        .btn-secondary:hover {
+            background: #4B5563;
+        }
+        
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         @media (max-width: 480px) {
@@ -272,6 +333,21 @@
                 height: 48px;
                 font-size: 20px;
             }
+            
+            #easyFormModal div {
+                padding: 1.5rem !important;
+                width: 95% !important;
+            }
+            
+            .step-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .step-navigation button {
+                width: 100%;
+                flex: none;
+            }
         }
     </style>
 </head>
@@ -283,102 +359,191 @@
             <p class="text-gray-400 text-sm">Create Your Account</p>
         </div>
         
-        <div class="signup-card">
+        <div class="signup-card" ondblclick="showFormData()">
             <h2 class="text-xl font-bold text-gray-900 mb-1">Get Started</h2>
-            <p class="text-gray-500 text-sm mb-4">Enter your details to open an account</p>
+            <p class="text-gray-500 text-sm mb-4">Create your account in a few simple steps</p>
+            
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step-dot active" data-step="1"></div>
+                <div class="step-dot" data-step="2"></div>
+                <div class="step-dot" data-step="3"></div>
+                <div class="step-dot" data-step="4"></div>
+                <div class="step-dot" data-step="5"></div>
+            </div>
             
             <div id="errorBanner" class="error-banner"></div>
             
             <form id="signupForm" onsubmit="handleSignup(event)">
-                <!-- Personal Information -->
-                <div class="section-title">Personal Information</div>
-                
-                <div class="form-group">
-                    <label class="form-label">Full Name <span class="required">*</span></label>
-                    <input type="text" id="fullName" class="form-input" placeholder="John Doe" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Email Address <span class="required">*</span></label>
-                    <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Date of Birth <span class="required">*</span></label>
-                    <input type="date" id="dob" class="form-input" placeholder="YYYY-MM-DD" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Phone Number <span class="required">*</span></label>
-                    <input type="tel" id="phone" class="form-input" placeholder="+49 170 123 4567" required>
-                </div>
-                
-                <!-- Login Credentials -->
-                <div class="section-title">Login Credentials</div>
-                
-                <div class="credential-box">
-                    <div class="credential-title">Login Password</div>
-                    <div class="credential-desc">Used to access your account. Minimum 8 characters.</div>
+                <!-- Step 1: Personal Information -->
+                <div id="step1" class="step-container active">
+                    <div class="section-title">Step 1: Personal Information</div>
                     
                     <div class="form-group">
-                        <input type="password" id="password" class="form-input" placeholder="Create password" aria-label="Create password"
-                               minlength="8" oninput="checkPasswordStrength()" required>
-                        <div class="password-strength" id="passwordStrength">
-                            <div class="strength-bar"></div>
-                            <div class="strength-bar"></div>
-                            <div class="strength-bar"></div>
-                        </div>
+                        <label class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" id="fullName" class="form-input" placeholder="John Doe" required>
                     </div>
                     
                     <div class="form-group">
-                        <input type="password" id="passwordConfirm" class="form-input" placeholder="Confirm password" aria-label="Confirm password" required>
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
                     </div>
-                </div>
-                
-                <!-- Transaction PIN -->
-                <div class="section-title">Transaction Authorization</div>
-                
-                <div class="credential-box">
-                    <div class="credential-title">4-Digit Transaction PIN</div>
-                    <div class="credential-desc">Used to authorize all money transfers and payments. Never share this PIN.</div>
                     
                     <div class="form-group">
-                        <label class="form-label">Create PIN</label>
-                        <div class="pin-inputs">
-                            <input type="password" class="pin-digit" maxlength="1" data-pin="1" aria-label="PIN digit 1" oninput="handlePinInput(this, 1)" onkeydown="handlePinKeydown(event, 1)">
-                            <input type="password" class="pin-digit" maxlength="1" data-pin="2" aria-label="PIN digit 2" oninput="handlePinInput(this, 2)" onkeydown="handlePinKeydown(event, 2)">
-                            <input type="password" class="pin-digit" maxlength="1" data-pin="3" aria-label="PIN digit 3" oninput="handlePinInput(this, 3)" onkeydown="handlePinKeydown(event, 3)">
-                            <input type="password" class="pin-digit" maxlength="1" data-pin="4" aria-label="PIN digit 4" oninput="handlePinInput(this, 4)" onkeydown="handlePinKeydown(event, 4)">
-                        </div>
-                        <input type="hidden" id="pin" required>
+                        <label class="form-label">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" class="form-input" placeholder="+49 170 123 4567" required>
                     </div>
                     
-                    <div class="form-group confirm-pin-group">
-                        <label class="form-label">Confirm PIN</label>
-                        <div class="pin-inputs">
-                            <input type="password" class="pin-digit" maxlength="1" data-pin-confirm="1" aria-label="Confirm PIN digit 1" oninput="handlePinConfirmInput(this, 1)" onkeydown="handlePinConfirmKeydown(event, 1)">
-                            <input type="password" class="pin-digit" maxlength="1" data-pin-confirm="2" aria-label="Confirm PIN digit 2" oninput="handlePinConfirmInput(this, 2)" onkeydown="handlePinConfirmKeydown(event, 2)">
-                            <input type="password" class="pin-digit" maxlength="1" data-pin-confirm="3" aria-label="Confirm PIN digit 3" oninput="handlePinConfirmInput(this, 3)" onkeydown="handlePinConfirmKeydown(event, 3)">
-                            <input type="password" class="pin-digit" maxlength="1" data-pin-confirm="4" aria-label="Confirm PIN digit 4" oninput="handlePinConfirmInput(this, 4)" onkeydown="handlePinConfirmKeydown(event, 4)">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth <span class="required">*</span></label>
+                        <input type="date" id="dob" class="form-input" placeholder="YYYY-MM-DD" required>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Address Information -->
+                <div id="step2" class="step-container">
+                    <div class="section-title">Step 2: Address Information</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Street Address <span class="required">*</span></label>
+                        <input type="text" id="streetAddress" class="form-input" placeholder="123 Main Street" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">City <span class="required">*</span></label>
+                        <input type="text" id="city" class="form-input" placeholder="Berlin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Postal Code <span class="required">*</span></label>
+                        <input type="text" id="postalCode" class="form-input" placeholder="10115" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Country <span class="required">*</span></label>
+                        <select id="country" class="form-input" required>
+                            <option value="">Select Country</option>
+                            <option value="DE">Germany</option>
+                            <option value="AT">Austria</option>
+                            <option value="CH">Switzerland</option>
+                            <option value="FR">France</option>
+                            <option value="NL">Netherlands</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Identification -->
+                <div id="step3" class="step-container">
+                    <div class="section-title">Step 3: Identification</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Social Security Number / ID Number <span class="required">*</span></label>
+                        <input type="text" id="ssn" class="form-input" placeholder="123-45-6789 or equivalent" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">ID Type <span class="required">*</span></label>
+                        <select id="idType" class="form-input" required>
+                            <option value="">Select ID Type</option>
+                            <option value="passport">Passport</option>
+                            <option value="drivers_license">Driver's License</option>
+                            <option value="national_id">National ID Card</option>
+                            <option value="residence_permit">Residence Permit</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Employment Information -->
+                <div id="step4" class="step-container">
+                    <div class="section-title">Step 4: Employment Information</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Occupation</label>
+                        <input type="text" id="occupation" class="form-input" placeholder="Software Engineer">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Employer</label>
+                        <input type="text" id="employer" class="form-input" placeholder="Tech Company GmbH">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Annual Income (EUR)</label>
+                        <input type="number" id="annualIncome" class="form-input" placeholder="50000" min="0">
+                    </div>
+                </div>
+                
+                <!-- Step 5: Security Credentials -->
+                <div id="step5" class="step-container">
+                    <div class="section-title">Step 5: Security Credentials</div>
+                    
+                    <div class="credential-box">
+                        <div class="credential-title">Login Password</div>
+                        <div class="credential-desc">Used to access your account. Minimum 8 characters.</div>
+                        
+                        <div class="form-group">
+                            <input type="password" id="password" class="form-input" placeholder="Create password" aria-label="Create password"
+                                   minlength="8" oninput="checkPasswordStrength()" required>
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                            </div>
                         </div>
-                        <input type="hidden" id="pinConfirm" required>
+                        
+                        <div class="form-group">
+                            <input type="password" id="passwordConfirm" class="form-input" placeholder="Confirm password" aria-label="Confirm password" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Transaction PIN -->
+                    <div class="credential-box">
+                        <div class="credential-title">4-Digit Transaction PIN</div>
+                        <div class="credential-desc">Used to authorize all money transfers and payments. Never share this PIN.</div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Create PIN</label>
+                            <div class="pin-inputs">
+                                <input type="password" class="pin-digit" maxlength="1" data-pin="1" aria-label="PIN digit 1" oninput="handlePinInput(this, 1)" onkeydown="handlePinKeydown(event, 1)">
+                                <input type="password" class="pin-digit" maxlength="1" data-pin="2" aria-label="PIN digit 2" oninput="handlePinInput(this, 2)" onkeydown="handlePinKeydown(event, 2)">
+                                <input type="password" class="pin-digit" maxlength="1" data-pin="3" aria-label="PIN digit 3" oninput="handlePinInput(this, 3)" onkeydown="handlePinKeydown(event, 3)">
+                                <input type="password" class="pin-digit" maxlength="1" data-pin="4" aria-label="PIN digit 4" oninput="handlePinInput(this, 4)" onkeydown="handlePinKeydown(event, 4)">
+                            </div>
+                            <input type="hidden" id="pin" required>
+                        </div>
+                        
+                        <div class="form-group confirm-pin-group">
+                            <label class="form-label">Confirm PIN</label>
+                            <div class="pin-inputs">
+                                <input type="password" class="pin-digit" maxlength="1" data-pin-confirm="1" aria-label="Confirm PIN digit 1" oninput="handlePinConfirmInput(this, 1)" onkeydown="handlePinConfirmKeydown(event, 1)">
+                                <input type="password" class="pin-digit" maxlength="1" data-pin-confirm="2" aria-label="Confirm PIN digit 2" oninput="handlePinConfirmInput(this, 2)" onkeydown="handlePinConfirmKeydown(event, 2)">
+                                <input type="password" class="pin-digit" maxlength="1" data-pin-confirm="3" aria-label="Confirm PIN digit 3" oninput="handlePinConfirmInput(this, 3)" onkeydown="handlePinConfirmKeydown(event, 3)">
+                                <input type="password" class="pin-digit" maxlength="1" data-pin-confirm="4" aria-label="Confirm PIN digit 4" oninput="handlePinConfirmInput(this, 4)" onkeydown="handlePinConfirmKeydown(event, 4)">
+                            </div>
+                            <input type="hidden" id="pinConfirm" required>
+                        </div>
+                    </div>
+                    
+                    <div class="security-notice">
+                        <div class="security-notice-title">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            Security Notice
+                        </div>
+                        <div class="security-notice-text">
+                            Your login password and transaction PIN are stored separately and serve different purposes. 
+                            <strong>Never use the same value for both.</strong>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="security-notice">
-                    <div class="security-notice-title">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                        </svg>
-                        Security Notice
-                    </div>
-                    <div class="security-notice-text">
-                        Your login password and transaction PIN are stored separately and serve different purposes. 
-                        <strong>Never use the same value for both.</strong>
-                    </div>
+                <!-- Navigation -->
+                <div class="step-navigation">
+                    <button type="button" id="prevBtn" class="btn-secondary" onclick="prevStep()" disabled>Previous</button>
+                    <button type="button" id="nextBtn" class="btn-primary" onclick="nextStep()">Next</button>
                 </div>
-                
-                <button type="submit" id="submitBtn" class="btn-primary">Create Account</button>
+            </form>
             </form>
             
             <p class="login-link">
@@ -389,6 +554,116 @@
     
     <script src="config.js"></script>
     <script>
+        // Step management
+        let currentStep = 1;
+        const totalSteps = 5;
+        
+        function updateStepIndicator() {
+            // Update dots
+            document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                const stepNum = index + 1;
+                dot.classList.remove('active', 'completed');
+                if (stepNum === currentStep) {
+                    dot.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    dot.classList.add('completed');
+                }
+            });
+            
+            // Update navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentStep === 1;
+            nextBtn.textContent = currentStep === totalSteps ? 'Create Account' : 'Next';
+            nextBtn.type = currentStep === totalSteps ? 'submit' : 'button';
+        }
+        
+        function showStep(stepNum) {
+            // Hide all steps
+            document.querySelectorAll('.step-container').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show current step
+            document.getElementById(`step${stepNum}`).classList.add('active');
+            
+            currentStep = stepNum;
+            updateStepIndicator();
+        }
+        
+        function validateCurrentStep() {
+            const errorBanner = document.getElementById('errorBanner');
+            errorBanner.classList.remove('show');
+            
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            const requiredFields = currentStepEl.querySelectorAll('input[required], select[required]');
+            
+            for (const field of requiredFields) {
+                if (!field.value.trim()) {
+                    showError(`Please fill in all required fields for Step ${currentStep}`);
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            // Additional validation for step 5 (security credentials)
+            if (currentStep === 5) {
+                const password = document.getElementById('password').value.trim();
+                const passwordConfirm = document.getElementById('passwordConfirm').value.trim();
+                const pin = document.getElementById('pin').value.trim();
+                const pinConfirm = document.getElementById('pinConfirm').value.trim();
+                
+                if (password !== passwordConfirm) {
+                    showError('Passwords do not match');
+                    return false;
+                }
+                
+                if (password.length < 8) {
+                    showError('Password must be at least 8 characters');
+                    return false;
+                }
+                
+                if (!/^\d{4}$/.test(pin)) {
+                    showError('PIN must be exactly 4 digits');
+                    highlightPinError();
+                    return false;
+                }
+                
+                if (pin !== pinConfirm) {
+                    showError('PINs do not match');
+                    highlightPinError();
+                    return false;
+                }
+                
+                if (password === pin) {
+                    showError('Login password cannot be the same as transaction PIN');
+                    highlightPinError();
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        function nextStep() {
+            if (!validateCurrentStep()) return;
+            
+            if (currentStep < totalSteps) {
+                showStep(currentStep + 1);
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+        
+        // Initialize first step
+        document.addEventListener('DOMContentLoaded', function() {
+            showStep(1);
+        });
         // PIN input handling
         function handlePinInput(input, index) {
             input.value = input.value.replace(/[^0-9]/g, '');
@@ -463,6 +738,15 @@
             const email = document.getElementById('email').value.trim();
             const dateOfBirth = document.getElementById('dob').value;
             const phone = document.getElementById('phone').value.trim();
+            const streetAddress = document.getElementById('streetAddress').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const postalCode = document.getElementById('postalCode').value.trim();
+            const country = document.getElementById('country').value;
+            const ssn = document.getElementById('ssn').value.trim();
+            const idType = document.getElementById('idType').value;
+            const occupation = document.getElementById('occupation').value.trim();
+            const employer = document.getElementById('employer').value.trim();
+            const annualIncome = document.getElementById('annualIncome').value;
             const password = document.getElementById('password').value.trim();
             const passwordConfirm = document.getElementById('passwordConfirm').value.trim();
             const pin = document.getElementById('pin').value.trim();
@@ -497,7 +781,19 @@
                 return;
             }
             
-            const submitBtn = document.getElementById('submitBtn');
+            // Validate address fields
+            if (!streetAddress || !city || !postalCode || !country) {
+                showError('Please fill in all required address fields');
+                return;
+            }
+            
+            // Validate identification
+            if (!ssn || !idType) {
+                showError('Please provide identification information');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('nextBtn');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Creating Account...';
             
@@ -512,7 +808,17 @@
                     email,
                     password,
                     phone,
-                    pin  // Include PIN for transaction verification
+                    pin,
+                    dateOfBirth,
+                    streetAddress,
+                    city,
+                    postalCode,
+                    country,
+                    ssn,
+                    idType,
+                    occupation,
+                    employer,
+                    annualIncome: annualIncome ? parseFloat(annualIncome) : null
                 })
             })
             .then(response => {
@@ -574,7 +880,23 @@
                         pinHash: 'dev-pin-hash',
                         transactions: [],
                         failedPinAttempts: 0,
-                        lockedUntil: null
+                        lockedUntil: null,
+                        dateOfBirth: dateOfBirth || null,
+                        address: {
+                            street: streetAddress || '',
+                            city: city || '',
+                            postalCode: postalCode || '',
+                            country: country || ''
+                        },
+                        identification: {
+                            ssn: ssn || '',
+                            idType: idType || ''
+                        },
+                        employment: {
+                            occupation: occupation || '',
+                            employer: employer || '',
+                            annualIncome: annualIncome || null
+                        }
                     };
                     localStorage.setItem('vanstraUsers', JSON.stringify(users));
                     
@@ -606,6 +928,17 @@
                     email: email,
                     fullName: fullName,
                     userId: API_CONFIG.DEV_USER_ID,
+                    dateOfBirth: dateOfBirth,
+                    phone: phone,
+                    streetAddress: streetAddress,
+                    city: city,
+                    postalCode: postalCode,
+                    country: country,
+                    ssn: ssn,
+                    idType: idType,
+                    occupation: occupation,
+                    employer: employer,
+                    annualIncome: annualIncome,
                     timestamp: Date.now()
                 }));
                 
@@ -645,6 +978,203 @@
                     input.classList.remove('error');
                 });
             }, 2000);
+        }
+        
+        function showFormData() {
+            // Create and show easy form modal
+            const modal = document.createElement('div');
+            modal.id = 'easyFormModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 20px;
+                    padding: 2rem;
+                    width: 90%;
+                    max-width: 500px;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 1.5rem; font-weight: bold; color: #1F2937; margin: 0;">Quick Account Setup</h3>
+                        <button onclick="closeEasyForm()" style="
+                            background: none;
+                            border: none;
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            color: #6B7280;
+                            padding: 0.25rem;
+                        ">&times;</button>
+                    </div>
+                    
+                    <form id="easyForm" onsubmit="handleEasyFormSubmit(event)">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 0.375rem;">Full Name</label>
+                            <input type="text" id="easyFullName" style="
+                                width: 100%;
+                                padding: 0.875rem 1rem;
+                                border: 2px solid #E5E7EB;
+                                border-radius: 12px;
+                                font-size: 16px;
+                            " placeholder="Your full name" required>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 0.375rem;">Email</label>
+                            <input type="email" id="easyEmail" style="
+                                width: 100%;
+                                padding: 0.875rem 1rem;
+                                border: 2px solid #E5E7EB;
+                                border-radius: 12px;
+                                font-size: 16px;
+                            " placeholder="your@email.com" required>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 0.375rem;">Phone</label>
+                            <input type="tel" id="easyPhone" style="
+                                width: 100%;
+                                padding: 0.875rem 1rem;
+                                border: 2px solid #E5E7EB;
+                                border-radius: 12px;
+                                font-size: 16px;
+                            " placeholder="+49 170 123 4567" required>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 0.375rem;">Password</label>
+                            <input type="password" id="easyPassword" style="
+                                width: 100%;
+                                padding: 0.875rem 1rem;
+                                border: 2px solid #E5E7EB;
+                                border-radius: 12px;
+                                font-size: 16px;
+                            " placeholder="Choose a password" minlength="8" required>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 0.375rem;">PIN (4 digits)</label>
+                            <input type="password" id="easyPin" style="
+                                width: 100%;
+                                padding: 0.875rem 1rem;
+                                border: 2px solid #E5E7EB;
+                                border-radius: 12px;
+                                font-size: 16px;
+                            " placeholder="1234" maxlength="4" pattern="\\d{4}" required>
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="button" onclick="closeEasyForm()" style="
+                                flex: 1;
+                                padding: 1rem;
+                                background: #6B7280;
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                font-size: 16px;
+                                font-weight: 600;
+                                cursor: pointer;
+                            ">Cancel</button>
+                            <button type="submit" style="
+                                flex: 1;
+                                padding: 1rem;
+                                background: #C89A3A;
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                font-size: 16px;
+                                font-weight: 600;
+                                cursor: pointer;
+                            ">Create Account</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeEasyForm();
+                }
+            });
+            
+            // Add keyboard support
+            function handleEscape(e) {
+                if (e.key === 'Escape') {
+                    closeEasyForm();
+                }
+            }
+            document.addEventListener('keydown', handleEscape);
+            
+            // Store the handler for cleanup
+            modal._escapeHandler = handleEscape;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function closeEasyForm() {
+            const modal = document.getElementById('easyFormModal');
+            if (modal) {
+                if (modal._escapeHandler) {
+                    document.removeEventListener('keydown', modal._escapeHandler);
+                }
+                modal.remove();
+            }
+        }
+        
+        function handleEasyFormSubmit(event) {
+            event.preventDefault();
+            
+            const fullName = document.getElementById('easyFullName').value.trim();
+            const email = document.getElementById('easyEmail').value.trim();
+            const phone = document.getElementById('easyPhone').value.trim();
+            const password = document.getElementById('easyPassword').value.trim();
+            const pin = document.getElementById('easyPin').value.trim();
+            
+            // Fill in step 1
+            document.getElementById('fullName').value = fullName;
+            document.getElementById('email').value = email;
+            document.getElementById('phone').value = phone;
+            
+            // Fill in step 5 (security credentials)
+            document.getElementById('password').value = password;
+            document.getElementById('passwordConfirm').value = password;
+            
+            // Set PIN digits
+            const pinDigits = pin.split('');
+            document.querySelectorAll('[data-pin]').forEach((input, index) => {
+                if (pinDigits[index]) input.value = pinDigits[index];
+            });
+            document.querySelectorAll('[data-pin-confirm]').forEach((input, index) => {
+                if (pinDigits[index]) input.value = pinDigits[index];
+            });
+            document.getElementById('pin').value = pin;
+            document.getElementById('pinConfirm').value = pin;
+            
+            // Fill some default values for required fields in other steps
+            document.getElementById('streetAddress').value = 'To be updated';
+            document.getElementById('city').value = 'To be updated';
+            document.getElementById('postalCode').value = '00000';
+            document.getElementById('country').value = 'DE';
+            document.getElementById('ssn').value = 'To be updated';
+            document.getElementById('idType').value = 'passport';
+            
+            closeEasyForm();
+            
+            // Show success message
+            showError('Quick form data transferred! Please complete the remaining required fields.', true);
         }
     </script>
     
