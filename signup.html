@@ -832,6 +832,38 @@
                     // Store auth token
                     localStorage.setItem('authToken', data.token);
                     localStorage.setItem('currentSession', data.token);
+                    
+                    // Sync user data from backend to frontend localStorage
+                    if (data.user) {
+                        const users = JSON.parse(localStorage.getItem('vanstraUsers') || '{}');
+                        // Convert backend fields to frontend format
+                        const frontendUser = {
+                            ...data.user,
+                            balance: data.user.accountBalance || 5000, // Ensure balance is set to 5000
+                            // Remove backend-specific fields
+                            accountBalance: undefined,
+                            // Add frontend-specific fields
+                            isOnline: true,
+                            lastLogin: new Date().toISOString()
+                        };
+                        delete frontendUser.accountBalance; // Remove the backend field
+                        
+                        users[data.user.id] = frontendUser;
+                        localStorage.setItem('vanstraUsers', JSON.stringify(users));
+                        
+                        // Create session for getCurrentUser
+                        const sessions = JSON.parse(localStorage.getItem('vanstraSessions') || '{}');
+                        sessions[data.token] = {
+                            userId: data.user.id,
+                            createdAt: new Date().toISOString(),
+                            expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+                        };
+                        localStorage.setItem('vanstraSessions', JSON.stringify(sessions));
+                        
+                        // Store user object for quick access
+                        localStorage.setItem('user', JSON.stringify(frontendUser));
+                    }
+                    
                     showError('Account created successfully! Redirecting to login...', true);
                     setTimeout(() => {
                         window.location.href = 'verify-otp.html?tempToken=' + encodeURIComponent(data.token) + '&email=' + encodeURIComponent(email);

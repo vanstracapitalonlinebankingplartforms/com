@@ -241,13 +241,19 @@
                     // Store user data in vanstraUsers for PIN verification and getCurrentUser
                     if (data.user) {
                         const users = JSON.parse(localStorage.getItem('vanstraUsers') || '{}');
-                        // Pull user data from backend response and store it
-                        users[data.user.id] = {
+                        // Convert backend fields to frontend format
+                        const frontendUser = {
                             ...data.user,
-                            // These fields are set on login for frontend app
+                            balance: data.user.accountBalance || 5000, // Ensure balance is set to 5000
+                            // Remove backend-specific fields
+                            accountBalance: undefined,
+                            // Add frontend-specific fields
                             isOnline: true,
                             lastLogin: new Date().toISOString()
                         };
+                        delete frontendUser.accountBalance; // Remove the backend field
+                        
+                        users[data.user.id] = frontendUser;
                         localStorage.setItem('vanstraUsers', JSON.stringify(users));
                         
                         // Create session for getCurrentUser
@@ -260,7 +266,7 @@
                         localStorage.setItem('vanstraSessions', JSON.stringify(sessions));
                         
                         // Store user object for quick access
-                        localStorage.setItem('user', JSON.stringify(data.user));
+                        localStorage.setItem('user', JSON.stringify(frontendUser));
                     }
                     
                     // Redirect to dashboard after short delay

@@ -74,12 +74,12 @@ const VanstraBank = (function() {
                 // Migrate legacy accountBalance to current balance field
                 if (user.accountBalance !== undefined && user.balance === undefined) {
                     const migratedBalance = parseFloat(user.accountBalance);
-                    user.balance = Number.isFinite(migratedBalance) ? migratedBalance : 0;
+                    user.balance = Number.isFinite(migratedBalance) ? migratedBalance : 5000;
                 }
 
-                // Ensure current balance field exists for all users
+                // Ensure current balance field exists for all users (default to 5000 for new accounts)
                 if (user.balance === undefined || Number.isNaN(Number(user.balance))) {
-                    user.balance = 0;
+                    user.balance = 5000;
                 }
             });
             localStorage.setItem('vanstraUsers', JSON.stringify(users));
