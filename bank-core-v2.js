@@ -70,6 +70,17 @@ const VanstraBank = (function() {
                 const user = users[userId];
                 if (!user.language) user.language = 'en';
                 if (!user.currency) user.currency = 'EUR';
+
+                // Migrate legacy accountBalance to current balance field
+                if (user.accountBalance !== undefined && user.balance === undefined) {
+                    const migratedBalance = parseFloat(user.accountBalance);
+                    user.balance = Number.isFinite(migratedBalance) ? migratedBalance : 0;
+                }
+
+                // Ensure current balance field exists for all users
+                if (user.balance === undefined || Number.isNaN(Number(user.balance))) {
+                    user.balance = 0;
+                }
             });
             localStorage.setItem('vanstraUsers', JSON.stringify(users));
         }
@@ -886,17 +897,20 @@ const VanstraBank = (function() {
             const user = getCurrentUser();
             const userCurrency = currency || (user && user.currency) || 'EUR';
             const userLocale = locale || (user && user.language) || 'en-US';
+            const normalizedAmount = Number(amount);
+            const safeAmount = Number.isFinite(normalizedAmount) ? normalizedAmount : 0;
             
             return new Intl.NumberFormat(userLocale, {
                 style: 'currency',
                 currency: userCurrency
-            }).format(amount);
+            }).format(safeAmount);
         } catch (e) {
             // Fallback if invalid currency/locale or any error
+            const safeAmount = Number.isFinite(Number(amount)) ? Number(amount) : 0;
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'EUR'
-            }).format(amount);
+            }).format(safeAmount);
         }
     }
 
