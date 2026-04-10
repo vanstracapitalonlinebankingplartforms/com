@@ -154,32 +154,36 @@
             align-items: center;
             justify-content: center;
             transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
-            width: 44px;
-            height: 44px;
-            color: var(--gold);
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+            width: 46px;
+            height: 46px;
+            color: #f6c66f;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.10);
             position: relative;
         }
         
         .notification-icon svg {
             width: 22px;
             height: 22px;
-            fill: currentColor;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.9;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
         
         .notification-icon:hover {
-            background: rgba(255, 255, 255, 0.16);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px) scale(1.02);
         }
         
         .notification-badge {
             position: absolute;
-            top: -6px;
-            right: -6px;
-            background: #ff5f5f;
+            top: 4px;
+            right: 4px;
+            background: #ff4d4d;
             color: white;
             border-radius: 50%;
             min-width: 18px;
@@ -190,7 +194,7 @@
             justify-content: center;
             font-size: 11px;
             font-weight: 700;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+            border: 2px solid rgba(255, 255, 255, 0.95);
         }
         
         .balance-hidden {
@@ -2119,7 +2123,9 @@
             <div class="header-icons">
                 <div class="notification-icon" onclick="openNotifications()" aria-label="Open notifications" role="button">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 2C9.79 2 8 3.79 8 6v2.25C6.61 9.07 5.61 10.84 5.28 12.86l-.1.62c-.13.5.1 1.02.56 1.29.29.18.65.19.95.01l.03-.01c.16-.09.31-.2.44-.35.24-.27.65-.3.94-.05.31.27.41.72.26 1.1-.43 1.12-1.27 2.05-2.33 2.54-.21.09-.34.3-.34.53v.41c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-.41c0-.23-.13-.44-.34-.53-1.06-.49-1.9-1.42-2.33-2.54-.15-.38-.05-.83.26-1.10.28-.26.70-.22.94.05.13.15.28.26.44.35l.03.01c.30.18.66.17.95-.01.46-.27.69-.79.56-1.29l-.10-.62c-.33-2.02-1.33-3.79-2.72-4.61V6c0-2.21-1.79-4-4-4zm0 20c1.10 0 2-.90 2-2H10c0 1.10.90 2 2 2z"/>
+                        <path d="M18 8a6 6 0 0 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        <path d="M13 5.5V6a1 1 0 0 1-2 0v-.5"/>
                     </svg>
                     <span class="notification-badge" id="notificationBadge" style="display: none;">3</span>
                 </div>
