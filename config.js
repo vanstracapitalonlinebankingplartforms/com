@@ -15,7 +15,7 @@ const API_CONFIG = {
   DEV_USER_ROLE: 'admin',
   DEV_USER_ID: 'dev-user-0001',
   DEV_USER_BALANCE: 5000,
-  DEV_USER_ACCOUNT_NUMBER: 'DE000000000',
+  DEV_USER_ACCOUNT_NUMBER: 'DE000000001', // Updated: Unique account number for dev user
 };
 
 // Helper function to make API calls

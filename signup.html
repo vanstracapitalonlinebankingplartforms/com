@@ -891,11 +891,24 @@
                     
                     // Create user in vanstraUsers storage (required for getCurrentUser to work)
                     const users = JSON.parse(localStorage.getItem('vanstraUsers') || '{}');
+                    
+                    // Generate unique sequential account number for new user
+                    let accountCounter = 1;
+                    const existingAccounts = Object.values(users).filter(u => u.accountNumber);
+                    if (existingAccounts.length > 0) {
+                      const numbers = existingAccounts.map(acc => {
+                        const match = (acc.accountNumber || '').match(/(\d+)$/);
+                        return match ? parseInt(match[1]) : 0;
+                      });
+                      accountCounter = Math.max(...numbers) + 1;
+                    }
+                    const generatedAccountNumber = `DE${String(accountCounter).padStart(12, '0')}`;
+                    
                     users[API_CONFIG.DEV_USER_ID] = {
                         id: API_CONFIG.DEV_USER_ID,
                         fullName,
                         email,
-                        accountNumber: API_CONFIG.DEV_USER_ACCOUNT_NUMBER,
+                        accountNumber: generatedAccountNumber,
                         accountType: 'Premium Checking',
                         tier: 'unlimited',
                         medal: 'gold',
